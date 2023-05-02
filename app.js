@@ -92,7 +92,7 @@ app.post('/signUp', async (req, res) => {
     };
     const result = await usersModel.create(user);
     console.log(result);
-    res.send('User created successfully');
+    res.send(`User created successfully<br> <button><a href="/login">Log In</a></button>`);
   } catch (error) {
     console.log(error);
     const errorMessage = error.details.map(detail => detail.message).join(`. <br>`);
@@ -165,7 +165,7 @@ app.get('/loggedIn', (req, res) => {
   res.send(`
     <h1>Welcome ${req.session.username}!</h1><br>
     <button><a href="/members">Go to Member's Area</a></button><br>
-    <button><a href="/logout">Log Out</a></button>
+    <button><a href="/">Log Out</a></button>
   `)
 })
 
