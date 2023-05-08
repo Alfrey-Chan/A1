@@ -8,9 +8,17 @@
 </head>
 <body>
   <%- include('templates/header') -%>
-  <h1>Home Sweet Home</h1><br>
-  <button><a href="/signUp">Sign Up</a></button><br>
-  <button><a href="/login">Log In</a></button>
+
+  <% if (username) { %>
+    <h1>Welcome <%= username %>!</h1><br>
+    <button><a href="/members">Go to Member's Area</a></button><br>
+    <button><a href="/logout">Log Out</a></button>
+  <% } else { %>
+    <h1>Home Sweet Home</h1><br>
+    <button><a href="/signUp">Sign Up</a></button><br>
+    <button><a href="/login">Log In</a></button>
+  <% } %>
+
   <%- include('templates/footer') -%>
 </body>
 </html>
