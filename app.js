@@ -140,11 +140,20 @@ app.post('/login', async (req, res) => {
     req.session.username = user.username;
     req.session.email = user.email;
     req.session.password = user.password;
+    req.session.type = user.type;
+    if (user.type === 'admin') {
+      res.redirect('/admin');
+      return;
+    }
     res.redirect('/loggedIn');
   } else {
     res.send(`Invalid email or password <br><button><a href="/login">Try Again</a></button>`);
   }
 });
+
+app.get('/admin', (req, res) => {
+  res.render('admin', { username: req.session.username });
+})
 
 app.get('/loggedIn', (req, res) => {
   res.render('loggedIn', { username: req.session.username });
