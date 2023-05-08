@@ -8,6 +8,9 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const dotenv = require('dotenv');
 dotenv.config();
 
+let ejs = require('ejs');
+app.set('view engine', 'ejs');
+
 var dbStore = new MongoDBStore({
   uri: process.env.MONGODB_URI,
   collection: process.env.MONGODB_COLLECTION
@@ -23,8 +26,6 @@ app.use(session({
       maxAge: 1000 * 60 * 60
     }
 }));
-
-app.set('view engine', 'ejs');
 
 // Home route
 app.get('/', (req, res) => {
