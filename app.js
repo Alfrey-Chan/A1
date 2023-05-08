@@ -196,7 +196,6 @@ const adminsOnly = async (req, res, next) => {
 };
 
 // admin only route
-// app.use(adminsOnly);
 app.get('/admin', adminsOnly, (req, res) => {
   res.render('admin', { username: req.session.username });
 })
