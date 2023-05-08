@@ -19,31 +19,21 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: {
-      // expires in one hour
+      // expires in one hour 
       maxAge: 1000 * 60 * 60
     }
 }));
 
+app.set('view engine', 'ejs');
+
 // Home route
 app.get('/', (req, res) => {
-  res.send(`
-  <h1>Home</h1><br>
-    <button><a href="/signUp">Sign Up</a></button><br>
-    <button><a href="/login">Log In</a></button>
-  `)
+  res.render('index');
 })
 
 // Sign up route
 app.get('/signUp', (req, res) => {
-  res.send(`
-    <h1>User Registration</h1><br>
-    <form action="/signUp" method="POST">
-      <input type="text" name="username" placeholder="username"><br>
-      <input type="password" name="password" placeholder="password"><br>
-      <input type="email" name="email" placeholder="email"><br>
-      <input type="submit" value="Sign Up">
-    </form>
-    `)
+  res.render('signUp');
 })
 
 // urlencoded is a method inbuilt in express to recognize the incoming Request Object as strings or arrays.
@@ -102,14 +92,7 @@ app.post('/signUp', async (req, res) => {
 
 // Login route
 app.get('/login', (req, res) => {
-  res.send(`
-    <h1>User Login</h1><br>
-    <form action="/login" method="POST">
-      <input type="text" name="email" placeholder="email"><br>
-      <input type="password" name="password" placeholder="password"><br>
-      <input type="submit" value="Log In">
-    </form>
-  `)
+  res.render('login');
 })
 
 // builtin express middleware to parse incoming requests with JSON payloads (based on body)
@@ -162,11 +145,7 @@ app.post('/login', async (req, res) => {
 });
 
 app.get('/loggedIn', (req, res) => {
-  res.send(`
-    <h1>Welcome ${req.session.username}!</h1><br>
-    <button><a href="/members">Go to Member's Area</a></button><br>
-    <button><a href="/">Log Out</a></button>
-  `)
+  res.render('loggedIn', { username: req.session.username });
 })
 
 // for members only
@@ -189,12 +168,7 @@ app.use(express.static('public'));
 app.get('/members', (req, res) => {
   const randomImageNumber = Math.floor(Math.random() * 3) + 1;
   const image = `00${randomImageNumber}.avif`;
-  res.send(`
-    <h1>Members Only</h1><br>
-    <h2>Hello ${req.session.username}</h2><br>
-    <img src="${image}"/><br>
-    <button><a href="/logout">Log Out</a></button>
-  `)
+  res.render('members', { username: req.session.username, image });
 });
 
 // logout route
@@ -210,7 +184,7 @@ app.get('/logout', (req, res) => {
 
 // 404 page not found route
 app.get('*', (req, res) => {
-  res.status(404).send(`<h1> 404 Page Not Found </h1>`);
+  res.status(404).render('404');
 });
 
 module.exports = app;
