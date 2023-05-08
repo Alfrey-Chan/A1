@@ -29,7 +29,7 @@ app.use(session({
 
 // Home route
 app.get('/', (req, res) => {
-  res.render('index');
+  res.render('index', { username: req.session.username });
 })
 
 // Sign up route
@@ -145,19 +145,15 @@ app.post('/login', async (req, res) => {
       res.redirect('/admin');
       return;
     }
-    res.redirect('/loggedIn');
+    res.redirect('/');
   } else {
     res.send(`Invalid email or password <br><button><a href="/login">Try Again</a></button>`);
   }
 });
 
-app.get('/admin', (req, res) => {
-  res.render('admin', { username: req.session.username });
-})
-
-app.get('/loggedIn', (req, res) => {
-  res.render('loggedIn', { username: req.session.username });
-})
+// app.get('/', (req, res) => {
+//   res.render('loggedIn', { username: req.session.username });
+// })
 
 // for members only
 const membersOnly = async (req, res, next) => {
@@ -181,6 +177,29 @@ app.get('/members', (req, res) => {
   const image = `00${randomImageNumber}.avif`;
   res.render('members', { username: req.session.username, image });
 });
+
+
+// for admins only
+const adminsOnly = async (req, res, next) => {
+  const user = await usersModel.findOne(
+    {
+      username: req.session.username,
+    }
+  )
+  if (!user) {
+    return res.status(401).json({ error: 'You must log in to view this page.' });
+  }
+  if (user.type !== 'admin') {
+    return res.status(403).json({ error: 'You must be an admin to view this page.' });
+  }
+  next();
+};
+
+// admin only route
+// app.use(adminsOnly);
+app.get('/admin', adminsOnly, (req, res) => {
+  res.render('admin', { username: req.session.username });
+})
 
 // logout route
 app.get('/logout', (req, res) => {
