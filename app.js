@@ -80,6 +80,7 @@ app.post('/signUp', async (req, res) => {
       username: username,
       password: hashedPassword,
       email: email,
+      type: 'member'
     };
     const result = await usersModel.create(user);
     console.log(result);
