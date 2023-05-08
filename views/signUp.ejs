@@ -7,6 +7,7 @@
   <title>Document</title>
 </head>
 <body>
+  <%- include('templates/header') -%>
   <h1>User Registration</h1><br>
     <form action="/signUp" method="POST">
       <input type="text" name="username" placeholder="username"><br>
@@ -14,5 +15,6 @@
       <input type="email" name="email" placeholder="email"><br>
       <input type="submit" value="Sign Up">
     </form>
+    <%- include('templates/footer') -%>
 </body>
 </html>

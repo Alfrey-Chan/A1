@@ -7,9 +7,11 @@
   <title>Document</title>
 </head>
 <body>
+  <%- include('templates/header') -%>
   <h1>Members Only</h1><br>
   <h2>Hello <%= username %></h2><br>
   <img src="<%= image %>"/><br>
   <button><a href="/logout">Log Out</a></button>
+  <%- include('templates/footer') -%>
 </body>
 </html>
