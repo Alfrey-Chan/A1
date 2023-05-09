@@ -14,6 +14,7 @@
     <% users.forEach(function(user){ %>
       <li>
         <%= user.username %> (<%= user.type %>)
+        <form action="/updateUserType" method="POST">
           <input type="hidden" name="userId" value="<%= user._id %>">
           <input type="submit" name="promote" value="Promote to admin" class="btn btn-primary mr-2 mb-2 btn-sm">
           <input type="submit" name="demote" value="Demote to member" class="btn btn-warning mb-2 btn-sm">
