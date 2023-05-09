@@ -196,9 +196,28 @@ const adminsOnly = async (req, res, next) => {
 };
 
 // admin only route
-app.get('/admin', adminsOnly, (req, res) => {
-  res.render('admin', { username: req.session.username });
+app.get('/admin', adminsOnly, async (req, res) => {
+  const users = await usersModel.find();
+  console.log(users);
+  res.render('admin', { 
+    username: req.session.username,
+    users: users,
+  });
 })
+
+app.post('/updateUserType', async (req, res) => {
+  const userId = req.body.userId;
+  const user = await usersModel.findOne({ _id: userId });
+  if (req.body.promote) {
+    user.type = 'admin';
+  } else {
+    user.type = 'member';
+  }
+  await user.save();
+  res.redirect('/admin');
+});
+
+   
 
 // logout route
 app.get('/logout', (req, res) => {
