@@ -151,9 +151,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-// app.get('/', (req, res) => {
-//   res.render('loggedIn', { username: req.session.username });
-// })
 
 // for members only
 const membersOnly = async (req, res, next) => {
@@ -164,7 +161,8 @@ const membersOnly = async (req, res, next) => {
     }
   ) // check if user is logged in
   if (!user) {
-    return res.status(401).json({ error: 'You must log in to view this page.' });
+    // return res.status(401).json({ error: 'You must log in to view this page.' });
+    return res.redirect('/login');
   }
   next();
 };
@@ -187,7 +185,9 @@ const adminsOnly = async (req, res, next) => {
     }
   )
   if (!user) {
-    return res.status(401).json({ error: 'You must log in to view this page.' });
+    console.log("user not found");
+    // return res.status(401).json({ error: 'You must log in to view this page.' });
+    return res.redirect('/login');
   }
   if (user.type !== 'admin') {
     return res.status(403).json({ error: 'You must be an admin to view this page.' });
