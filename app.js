@@ -168,7 +168,7 @@ const membersOnly = async (req, res, next) => {
 };
 
 // members only route
-app.use(membersOnly);
+// app.use(membersOnly);
 app.use(express.static('public'));
 app.get('/members', (req, res) => {
   const randomImageNumber = Math.floor(Math.random() * 3) + 1;
